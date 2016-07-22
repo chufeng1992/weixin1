@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd	
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<mvc:annotation-driven/>	
+	<mvc:default-servlet-handler/>
+	
+	<context:component-scan base-package="com.weixin1.admin.controller" />
+	<context:component-scan base-package="com.json" />
+
+	<!-- mvc JSON格式化 start-->
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" >   
+    	<property name="order" value="0" />   
+    </bean>
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter"/> 
+			</list>
+		</property>
+	</bean>
+
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+		<property name="objectMapper">
+                <bean class="com.weixin1.common.util.XSSObjectMapper">
+                    <property name="dateFormat">
+                        <bean class="java.text.SimpleDateFormat">
+                            <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss"/>
+                        </bean>
+                    </property>
+                </bean>
+        </property>
+	</bean>
+	<!-- mvc JSON格式化 end-->
+
+	<!-- 对静态资源文件的访问  restful-->     
+	<mvc:resources mapping="/admin/**" location="/,/admin/" />
+	<mvc:resources mapping="/static/**" location="/,/static/" />
+	<mvc:resources mapping="/plugins/**" location="/,/plugins/" />
+	<mvc:resources mapping="/uploadFiles/**" location="/,/uploadFiles/" /> 
+
+	<!-- 访问拦截  -->  
+  	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/**"/>
+			<bean class="com.weixin1.admin.interceptor.LoginHandlerInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	 
+	<!-- 配置SpringMVC的视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/html/"/>
+		<property name="suffix" value=".html"/>
+	</bean>
+	
+	<bean id="exceptionResolver" class="com.weixin1.admin.resolver.MyExceptionResolver"></bean>
+	<!-- 上传拦截，如最大上传值及最小上传值 -->
+	  <bean id="multipartResolver"   class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >   
+		  <property name="maxUploadSize">    
+	          <value>104857600</value>    
+	       </property>   
+	        <property name="maxInMemorySize">    
+	            <value>4096</value>    
+	        </property>   
+	         <property name="defaultEncoding">    
+	            <value>utf-8</value>    
+	        </property> 
+    </bean>  
+	<!-- velocity模板信息设置 -->
+	<bean id="velocityConfig"  class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">  
+    	<property name="resourceLoaderPath" value="/WEB-INF/html" />  
+    	<property name="configLocation" value="classpath:velocity.properties" /> 
+		<property name="velocityProperties">    
+         <props>    
+             <prop  key="input.encoding">utf-8</prop>    
+             <prop  key="output.encoding">utf-8</prop>      
+          </props>    
+      	</property>  
+	</bean> 	
+	<!-- 设置视图解析工具 -->  
+	<bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+    	<property name="suffix" value=".html"/>
+		<property name="order" value="1" />
+		<property name="requestContextAttribute" value="rc" />
+		<property name="contentType">
+			<value>text/html;charset=UTF-8</value>
+		</property>
+		<property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml"/>
+	</bean>	
+	<!-- 设置视图解析工具 -->  
+<!-- 	<bean id="jsvelocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver"> -->
+<!--     	<property name="suffix" value=".js"/> -->
+<!-- 		<property name="order" value="2" /> -->
+<!-- 		<property name="requestContextAttribute" value="rc" /> -->
+<!-- 		<property name="contentType"> -->
+<!-- 			<value>text/html;charset=UTF-8</value> -->
+<!-- 		</property> -->
+<!-- 	</bean>		 -->
+</beans>

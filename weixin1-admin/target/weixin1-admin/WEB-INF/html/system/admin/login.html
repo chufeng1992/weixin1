@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${pd.SYSNAME}-登录</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- import common js -->
+<link rel="stylesheet" href="${rc.contextPath}/static/login/bootstrap.min.css" />
+<link rel="stylesheet" href="${rc.contextPath}/static/login/css/camera.css" />
+<link rel="stylesheet" href="${rc.contextPath}/static/login/matrix-login.css" />
+<link rel="stylesheet" href="${rc.contextPath}/static/login/font-awesome.css" />
+<style>
+#loginbox .main_input_box .add-on{padding:0;vertical-align: top;width: 50px;height:38px;line-height: 36px;}
+#loginbox .main_input_box input{height:38px;padding:0 6px;margin: 0;}
+.form-actions i{display: inline-block;}
+.codediv input{padding:0;margin-bottom:0;height: 21px!important;width: 50px;}
+.cb:after,.cb_li>li:after,.cb_a>a:after{content:"\20";display:block;width:0;height:0;clear:both;}
+.cb,.cb_li>li,.cb_a>a{zoom:1;}
+#loginbox .form-actions{padding:14px 44px 15px;margin-top: 10px;}
+</style>
+<script type="text/javascript" src="${rc.contextPath}/static/login/js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/static/login/js/jquery.mobile.customized.min.js"></script>
+<script type="text/javascript" src="${rc.contextPath}/static/login/js/camera.min.js"></script>
+<!-- 导入myjs -->
+<script type="text/javascript" src="${rc.contextPath}/static/js/system/admin/login.js"></script> 	
+</head>
+ 
+<body>
+
+	<div
+		style="width:100%;text-align: center;margin: 0 auto;position: absolute;height:100%;">
+		<div id="loginbox">
+			<form action="" method="post" name="loginForm"
+				id="loginForm">
+				<div class="control-group normal_text">
+					<h3>
+						<img src="${rc.contextPath}/static/login/logo.png" alt="Logo" />
+					</h3>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<div class="main_input_box">
+							<span class="add-on bg_lg">
+							<i><img height="37" src="${rc.contextPath}/static/login/user.png" /></i>
+							</span><input type="text" name="loginname" id="loginname" value="" placeholder="请输入用户名" />
+						</div>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<div class="main_input_box">
+							<span class="add-on bg_ly">
+							<i><img height="37" src="${rc.contextPath}/static/login/suo.png" /></i>
+							</span><input type="password" name="password" id="password" placeholder="请输入密码" value="" />
+						</div>
+					</div>
+				</div>
+				<div class="form-actions">
+					<div class="cb">
+
+						<div style="float: left;">
+							<i><img src="${rc.contextPath}/static/login/yan.png" /></i>
+						</div>
+						<div style="float: left;" class="codediv">
+							<input type="text" name="code" id="code" class="login_code"
+								style="height:16px; padding-top:0px;" />
+						</div>
+						<div style="float: left;">
+							<i><img style="height:22px;" id="codeImg" alt="点击更换"
+								title="点击更换" src="" /></i>
+						</div>
+
+						<span class="pull-right"><a
+							href="javascript:quxiao();" class="btn btn-success">取消</a></span> <span
+							class="pull-right"><a onclick="severCheck();"
+							class="flip-link btn btn-info" id="to-recover">登录</a></span>
+
+					</div>
+				</div>
+
+			</form>
+
+
+			
+		</div>
+		<div class="controls" style="z-index: 100;text-align: center;position: absolute; bottom: 40px;width: 100%;">
+				<div class="main_input_box">
+					<font color="white"><span id="nameerr" style='font-family: "Microsoft YaHei","Arial",simsun, sans-serif;"'>Copyright © clc 2016</span></font>
+				</div>
+		</div>
+	</div>
+	<div id="templatemo_banner_slide" class="container_wapper">
+		<div class="camera_wrap camera_emboss" id="camera_slide">
+			<div data-src="${rc.contextPath}/static/login/images/banner_slide_01.jpg"></div>
+			<div data-src="${rc.contextPath}/static/login/images/banner_slide_02.jpg"></div>
+			<div data-src="${rc.contextPath}/static/login/images/banner_slide_03.jpg"></div>
+			<div data-src="${rc.contextPath}/static/login/images/banner_slide_04.jpg"></div>
+		</div>
+		<!-- #camera_wrap_3 -->
+	</div>
+</body>
+
+<script type="text/javascript" src="${rc.contextPath}/static/login/js/templatemo_script.js"></script>
+
+</html>
